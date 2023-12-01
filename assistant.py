@@ -41,15 +41,14 @@ def extract_student_info(name, age, major, school):
 
 
 # SAMPLE
-studentDescription1 = "Seth Grief-Albert is an 18 year-old undergraduate studying Applied Mathematics at Queen's University."
-studentDescription2 = "Hey so my name is Seth and I am at Queen's University. I study Applied Mathematics. I'm also 18."
+studentDescription = "Seth Grief-Albert is an 18 year-old undergraduate studying Applied Mathematics at Queen's University."
 
 # API CALL
 completion = client.chat.completions.create(
   model="gpt-3.5-turbo",
   messages=[
     {"role": "system", "content": "You are a university assistant, skilled in parsing student information"},
-    {"role": "user", "content": studentDescription2}],
+    {"role": "user", "content": studentDescription}],
     functions=customs,
     function_call='auto'
 )
