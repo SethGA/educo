@@ -2,3 +2,4 @@ ChatCompletionMessage(content="In the realm of code, where logic weaves,\nLies a
 ChatCompletionMessage(content='Lines of code dancing,\nSyntaxes weave like cherry blooms,\nPrograms come alive.', role='assistant', function_call=None, tool_calls=None)
 ChatCompletionMessage(content=None, role='assistant', function_call=FunctionCall(arguments='{\n  "name": "Seth Grief-Albert",\n  "age": 18,\n  "major": "Applied Mathematics",\n  "school": "Queen\'s University"\n}', name='extract_user_info'), tool_calls=None)
 Seth Grief-Albert is 18 years old, majoring in Applied Mathematics at Queen's University.
+Seth Grief-Albert is Applied Mathematics years old, majoring in Queen's University at 18.
