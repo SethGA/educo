@@ -12,7 +12,7 @@ st.title("Educo")
 # st.sidebar.success("Select an item above")
 
 
-openai.api_key = ""
+openai.api_key = OPENAI_API_KEY
 
 def on_copy_click(text):
     st.session_state.copied.append(text)
