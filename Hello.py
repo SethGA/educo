@@ -11,12 +11,12 @@ st.title("Educo")
 # st.write("""Chat with gpt-4.""")
 # st.sidebar.success("Select an item above")
 
-
+OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 openai.api_key = OPENAI_API_KEY
 
-def on_copy_click(text):
-    st.session_state.copied.append(text)
-    pyperclip.copy(text)
+# def on_copy_click(text):
+#     st.session_state.copied.append(text)
+#     pyperclip.copy(text)
 
 # Set a model
 if "openai_model" not in st.session_state:
