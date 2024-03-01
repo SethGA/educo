@@ -24,17 +24,22 @@ if "openai_model" not in st.session_state:
     st.session_state["openai_model"] = "gpt-3.5-turbo"
 
 # Initialize chat history
+    
+with open("plaid.txt", "r") as file:
+    # Read the contents of the file into a string
+    file_contents = file.read()
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
-    # st.session_state.messages.append({"role": "user", "content": vault_prompt})
+    st.session_state.messages.append({"role": "user", "content": file_contents})
 
 if "copied" not in st.session_state:
     st.session_state.copied = []
 
 # Display chat messages from history on app rerun
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+# for message in st.session_state.messages:
+#     with st.chat_message(message["role"]):
+#         st.markdown(message["content"])
 
 if prompt := st.chat_input("What's up?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
