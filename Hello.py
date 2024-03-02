@@ -241,22 +241,21 @@ if prompt := st.chat_input("What's up?"):
         st.markdown(prompt)
         # st.session_state.messages.append({"role": "user", "content": vault_prompt})
 
-# assistant
-with st.chat_message("assistant"):
-  placeholder = st.empty()
-  full_response = ""
-  response = client.chat.completions.create(
-    model=st.session_state["openai_model"],
-    messages=[
-      {"role": m["role"], "content": m["content"]}
-      for m in st.session_state.messages
-    ],
-    stream=True,
-  )
-  full_response += response.choices[0].message['content']  # Extract the 'content' property
-  placeholder.markdown(full_response + "▌")
-  placeholder.markdown(full_response)
-  st.session_state.messages.append({"role": "assistant", "content": full_response})
-  
+    # assistant
+    with st.chat_message("assistant"):
+        placeholder = st.empty()
+        full_response = ""
+        response = client.chat.completions.create(
+            model=st.session_state["openai_model"],
+            messages=[
+                {"role": m["role"], "content": m["content"]}
+                for m in st.session_state.messages
+            ],
+           #stream=True,
+        )
+        full_response += str(response.choices[0].message)
+        placeholder.markdown(full_response + "▌")
+        placeholder.markdown(full_response)
+    st.session_state.messages.append({"role": "assistant", "content": full_response})
     # BUTTON
     # st.button("[copy]", on_click=on_copy_click, args=(full_response,))
