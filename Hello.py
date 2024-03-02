@@ -58,11 +58,11 @@ client = OpenAI()
 #     st.session_state.copied.append(text)
 #     pyperclip.copy(text)
 
-Set a model
+# Set a model
 if "openai_model" not in st.session_state:
    st.session_state["openai_model"] = "gpt-3.5-turbo"
 
-Initialize chat history
+# Initialize chat history
     
 # with open("plaid.txt", "r") as file:
 #     # Read the contents of the file into a string
