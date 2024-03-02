@@ -1,27 +1,66 @@
 import streamlit as st
 import openai
 from openai import OpenAI
+import random
 # import pyperclip
 
-# st.set_page_config(
-#     page_title="Hello",
-#     page_icon="👋",
-# )
+st.set_page_config(
+  page_title="Hello",
+  page_icon="👋",
+  layout="wide",
+  initial_sidebar_state="expanded",
+  menu_items={
+      'Get Help': 'https://www.example.com/help',
+      'Report a Bug': 'https://www.example.com/bug',
+      'About': '# This is a header\nThis is an about page'
+  }
+)
 
 st.title("Educo")
-# st.write("""Chat with gpt-4.""")
-# st.sidebar.success("Select an item above")
-OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
-openai.api_key = OPENAI_API_KEY
-client = OpenAI()
+st.subheader("Welcome to Educo, your personal financial assistant")
+
+st.markdown("""
+---
+""")
+
+st.markdown("""
+<style>
+body {
+    color: #ff0000;
+    background-color: #000000;
+}
+</style>
+    """, unsafe_allow_html=True)
+
+# Add a selectbox to the sidebar
+option = st.sidebar.selectbox(
+    'Please select an option',
+     ['Home', 'View Account Balance', 'Transfer Funds', 'Pay Bills', 'Settings'])
+
+if option == 'Home':
+    st.sidebar.markdown("Welcome back to your online banking portal. Navigate using the menu to manage your account.")
+elif option == 'View Account Balance':
+    st.sidebar.markdown("Here you can view the current balance for all your accounts.")
+elif option == 'Transfer Funds':
+    st.sidebar.markdown("Transfer funds between your accounts or to another bank account.")
+elif option == 'Pay Bills':
+    st.sidebar.markdown("Manage your bill payments. Set up new payees, schedule payments, and view past transactions.")
+elif option == 'Settings':
+    st.sidebar.markdown("Manage your account settings. Update personal information, change your password, and more.")
+
+
+
+# OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+# openai.api_key = OPENAI_API_KEY
+# client = OpenAI()
 
 # def on_copy_click(text):
 #     st.session_state.copied.append(text)
 #     pyperclip.copy(text)
 
 # Set a model
-if "openai_model" not in st.session_state:
-    st.session_state["openai_model"] = "gpt-3.5-turbo"
+# if "openai_model" not in st.session_state:
+#    st.session_state["openai_model"] = "gpt-3.5-turbo"
 
 # Initialize chat history
     
@@ -202,21 +241,22 @@ if prompt := st.chat_input("What's up?"):
         st.markdown(prompt)
         # st.session_state.messages.append({"role": "user", "content": vault_prompt})
 
-    # assistant
-    with st.chat_message("assistant"):
-        placeholder = st.empty()
-        full_response = ""
-        response = client.chat.completions.create(
-            model=st.session_state["openai_model"],
-            messages=[
-                {"role": m["role"], "content": m["content"]}
-                for m in st.session_state.messages
-            ],
-           #stream=True,
-        )
-        full_response += str(response.choices[0].message)
-        placeholder.markdown(full_response + "▌")
-        placeholder.markdown(full_response)
-    st.session_state.messages.append({"role": "assistant", "content": full_response})
+# assistant
+# with st.chat_message("Hi! How can I help you today?"):
+  # placeholder = st.empty()
+  # full_response = ""
+  # response = client.chat.completions.create(
+    # model=st.session_state["openai_model"],
+    # messages=[
+      # {"role": m["role"], "content": m["content"]}
+      # for m in st.session_state.messages
+    # ],
+    # stream=True,
+  # )
+  # full_response += response.choices[0].message['content']  # Extract the 'content' property
+  # placeholder.markdown(full_response + "▌")
+  # placeholder.markdown(full_response)
+  # st.session_state.messages.append({"role": "assistant", "content": full_response})
+  
     # BUTTON
     # st.button("[copy]", on_click=on_copy_click, args=(full_response,))
