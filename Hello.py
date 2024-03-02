@@ -50,19 +50,19 @@ elif option == 'Settings':
 
 
 
-# OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
-# openai.api_key = OPENAI_API_KEY
-# client = OpenAI()
+OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+openai.api_key = OPENAI_API_KEY
+client = OpenAI()
 
 # def on_copy_click(text):
 #     st.session_state.copied.append(text)
 #     pyperclip.copy(text)
 
-# Set a model
-# if "openai_model" not in st.session_state:
-#    st.session_state["openai_model"] = "gpt-3.5-turbo"
+Set a model
+if "openai_model" not in st.session_state:
+   st.session_state["openai_model"] = "gpt-3.5-turbo"
 
-# Initialize chat history
+Initialize chat history
     
 # with open("plaid.txt", "r") as file:
 #     # Read the contents of the file into a string
@@ -242,21 +242,21 @@ if prompt := st.chat_input("What's up?"):
         # st.session_state.messages.append({"role": "user", "content": vault_prompt})
 
 # assistant
-# with st.chat_message("Hi! How can I help you today?"):
-  # placeholder = st.empty()
-  # full_response = ""
-  # response = client.chat.completions.create(
-    # model=st.session_state["openai_model"],
-    # messages=[
-      # {"role": m["role"], "content": m["content"]}
-      # for m in st.session_state.messages
-    # ],
-    # stream=True,
-  # )
-  # full_response += response.choices[0].message['content']  # Extract the 'content' property
-  # placeholder.markdown(full_response + "▌")
-  # placeholder.markdown(full_response)
-  # st.session_state.messages.append({"role": "assistant", "content": full_response})
+with st.chat_message("assistant"):
+  placeholder = st.empty()
+  full_response = ""
+  response = client.chat.completions.create(
+    model=st.session_state["openai_model"],
+    messages=[
+      {"role": m["role"], "content": m["content"]}
+      for m in st.session_state.messages
+    ],
+    stream=True,
+  )
+  full_response += response.choices[0].message['content']  # Extract the 'content' property
+  placeholder.markdown(full_response + "▌")
+  placeholder.markdown(full_response)
+  st.session_state.messages.append({"role": "assistant", "content": full_response})
   
     # BUTTON
     # st.button("[copy]", on_click=on_copy_click, args=(full_response,))
