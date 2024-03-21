@@ -1,12 +1,10 @@
 import streamlit as st
 import openai
 from openai import OpenAI
-import random
-# import pyperclip
 
 st.set_page_config(
-  page_title="Hello",
-  page_icon="👋",
+  page_title="Educo",
+  page_icon="💸",
   layout="wide",
   initial_sidebar_state="expanded",
   menu_items={
@@ -17,20 +15,9 @@ st.set_page_config(
 )
 
 st.title("Educo")
-st.subheader("Welcome to Educo, your personal financial assistant")
+st.subheader("Welcome to Educo, your personal financial assistant.")
 
-st.markdown("""
----
-""")
-
-st.markdown("""
-<style>
-body {
-    color: #ff0000;
-    background-color: #000000;
-}
-</style>
-    """, unsafe_allow_html=True)
+st.markdown("""---""")
 
 # Add a selectbox to the sidebar
 option = st.sidebar.selectbox(
@@ -49,30 +36,21 @@ elif option == 'Settings':
     st.sidebar.markdown("Manage your account settings. Update personal information, change your password, and more.")
 
 
-
+# MODEL
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 openai.api_key = OPENAI_API_KEY
 client = OpenAI()
-
-# MODEL
 if "openai_model" not in st.session_state:
-   st.session_state["openai_model"] = "gpt-3.5-turbo"
+    st.session_state["openai_model"] = "gpt-3.5-turbo"
 
 # Initialize chat history
-    
-
-
 if "messages" not in st.session_state:
     st.session_state.messages = []
-    st.session_state.messages.append({"role": "user", "content": file_contents})
-
-if "copied" not in st.session_state:
-    st.session_state.copied = []
 
 # Display chat messages from history on app rerun
-# for message in st.session_state.messages:
-#     with st.chat_message(message["role"]):
-#         st.markdown(message["content"])
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
 
 if prompt := st.chat_input("What's up?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
@@ -80,23 +58,22 @@ if prompt := st.chat_input("What's up?"):
     # user
     with st.chat_message("user"):
         st.markdown(prompt)
-        # st.session_state.messages.append({"role": "user", "content": vault_prompt})
 
     # assistant
     with st.chat_message("assistant"):
-        placeholder = st.empty()
-        full_response = ""
-        response = client.chat.completions.create(
+        stream = client.chat.completions.create(
             model=st.session_state["openai_model"],
             messages=[
                 {"role": m["role"], "content": m["content"]}
                 for m in st.session_state.messages
             ],
-           #stream=True,
+            stream=True,
         )
-        full_response += str(response.choices[0].message)
-        placeholder.markdown(full_response + "▌")
-        placeholder.markdown(full_response)
-    st.session_state.messages.append({"role": "assistant", "content": full_response})
-    # BUTTON
-    # st.button("[copy]", on_click=on_copy_click, args=(full_response,))
+        response = st.write_stream(stream)
+    st.session_state.messages.append({"role": "assistant", "content": response})
+    
+    # CONVERSATION MEMORY
+    # clear first interaction from memory after three interactions
+    if (len(st.session_state.messages) > 6):
+        st.session_state.messages.pop(0)
+        st.session_state.messages.pop(0)
