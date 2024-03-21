@@ -43,14 +43,19 @@ client = OpenAI()
 if "openai_model" not in st.session_state:
     st.session_state["openai_model"] = "gpt-3.5-turbo"
 
+# Create system prompt
+system = "respond as a pirate to the user."
+
 # Initialize chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []
+    st.session_state.messages.append({"role": "system", "content": system})
 
 # Display chat messages from history on app rerun
 for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
+    if (message["role"] != "system"):
+      with st.chat_message(message["role"]):
+          st.markdown(message["content"])
 
 if prompt := st.chat_input("What's up?"):
     st.session_state.messages.append({"role": "user", "content": prompt})
@@ -74,6 +79,7 @@ if prompt := st.chat_input("What's up?"):
     
     # CONVERSATION MEMORY
     # clear first interaction from memory after three interactions
-    if (len(st.session_state.messages) > 6):
-        st.session_state.messages.pop(0)
-        st.session_state.messages.pop(0)
+    # 7 = system prompt + 3 user messages + 3 assistant messages
+    if (len(st.session_state.messages) > 7):
+        st.session_state.messages.pop(1)
+        st.session_state.messages.pop(1)
